@@ -1,0 +1,1 @@
+insert into [user] (FirstName,LastName,UserName,EmailId,Password,PhoneNo) values('test','user','testuser','test@test.com','password','1234567890')
