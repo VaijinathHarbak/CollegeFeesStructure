@@ -5,6 +5,7 @@ create table [Fees](
 	CastId bigint foreign key references [Cast](Id),
 	TutionFees decimal(18,2),
 	LibraryFees decimal(18,2),
-	UniformFees decimal(18,2)
+	UniformFees decimal(18,2),
+	[year] int
 )
 Go
