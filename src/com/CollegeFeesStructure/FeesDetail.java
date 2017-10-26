@@ -1,7 +1,12 @@
 package com.CollegeFeesStructure;
 
-import java.util.List;
-
-public class FeesDetail {
-	public List<Year> years;
+public class FeesDetail{
+	
+	public String Year;
+	public String Branch;
+	public String Cast;
+	public Float Tution_Fees;
+	public Float Library_Fees;
+	public Float Uniform_Fees;
+	public String Contact;
 }

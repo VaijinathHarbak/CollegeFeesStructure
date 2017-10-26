@@ -1,66 +1,61 @@
 package com.CollegeFeesStructure;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import com.mysql.jdbc.StringUtils;
 
+
 public class FeesDetailController {
-	public static FeesDetail getFeesDetails(String castCategory){
-		FeesDetail feesDetails = null;
+	public static String getFeesDetails(String castCategory){ //FeesDetail
+		List<FeesDetail> feesDetails = null;
+		String result = null;
 		try{
 			Connection con=ConnectionProvider.createConnection();
 			String q ;
 			if(StringUtils.isEmptyOrWhitespaceOnly(castCategory)){
-				q = "select t.year, b.branchname,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid;";
+				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid;";
 			}
 			else{
-				q = "select t.year, b.branchname,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid where c.cast = '"+castCategory+"';";
+				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid where c.cast = '"+castCategory+"';";
 			}
 			PreparedStatement ps=con.prepareStatement(q);
 			ResultSet rs = ps.executeQuery();
 			if(rs != null)
-				feesDetails = new FeesDetail();
+				feesDetails = new ArrayList<FeesDetail>();
 			while (rs.next()) {
-				int year = rs.getInt("year");
-				String branchname = rs.getString("branchname");
-				String cast = rs.getString("cast");
-				float tutionfees = rs.getFloat("tutionfees");
-				float libraryfees = rs.getFloat("libraryfees");
-				float uniformfees = rs.getFloat("uniformfees");
-				String contactno = rs.getString("contactno");
-				
-				if(feesDetails.years == null){
-					feesDetails.years = new ArrayList<Year>();
-					Year yearObj = new Year();
-					yearObj.yearNo = year;
-					
-					yearObj.branches = new ArrayList<Branch>();
-					Branch branchObj = new Branch();
-					branchObj.branchName = branchname;
-					branchObj.contactNo = contactno;
-					branchObj.casts = new ArrayList<Cast>();
-					
-					Cast castObj = new Cast();
-					castObj.cast = cast;
-					castObj.tutionFees = tutionfees;
-					castObj.libraryFees = libraryfees;
-					castObj.uniformFees = uniformfees;
-					branchObj.casts.add(castObj);
-						
-					yearObj.branches.add(branchObj);
-					
-					feesDetails.years.add(yearObj);
-				}
-				else{
-					//feesDetails.years.forEach();
-				}
+				FeesDetail fs = new FeesDetail();
+				fs.Year = rs.getString("year");
+				fs.Branch = rs.getString("branchname");
+				fs.Cast = rs.getString("cast");
+				fs.Tution_Fees = rs.getFloat("tutionfees");
+				fs.Library_Fees = rs.getFloat("libraryfees");
+				fs.Uniform_Fees = rs.getFloat("uniformfees");
+				fs.Contact = rs.getString("contactno");
+				feesDetails.add(fs);				
 			}
 	    }
 		catch(Exception e){}
-		return feesDetails;
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		try {
+			result = ow.writeValueAsString(feesDetails);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
