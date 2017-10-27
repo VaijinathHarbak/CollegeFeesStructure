@@ -108,7 +108,7 @@ span.psw {
 	    
 	    <div>
 	    <a href="login.jsp">Back</a>
-	    <span style="text-align: left;"><a href="feesDetail.jsp" >Fees Details</a></span>
+	    <!--<span style="text-align: left;"><a href="feesDetail.jsp" >Fees Details</a></span>-->
 	    </div>
 	    
 	    

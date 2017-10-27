@@ -10,12 +10,13 @@
 <%
 
 Status status=LoginRegistrationController.registerUser(user);
-
+status.status = 0;
 if(status.status > 0){
 	response.sendRedirect("login.jsp");
 
 }
 else{
-	out.print(status.message);
+	out.println(status.message);
+	out.println( "<a href = 'register.jsp'>Try again...</a>"); 
 	}
 %>

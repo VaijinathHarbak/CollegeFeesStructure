@@ -13,6 +13,7 @@ if(status.status > 0){
 	response.sendRedirect("feesDetail.jsp");
 }
 else{
-	response.sendRedirect("login.jsp");
+	out.println(status.message);
+	out.println( "<a href = 'login.jsp'>Try again...</a>"); 
 }
 %>

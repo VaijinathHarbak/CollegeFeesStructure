@@ -87,8 +87,9 @@ span.psw {
 	    <h3 style="color:#4caf50">Fees Details</h3>
 	  </div>
 	  <div id="myDynamicTable">
-		<input type="button" id="create" value="Click here">
-	</div></br>
+	  	<input type="text" name="search-cast" id="search-cast" class="form-control" placeholder="Search Cast">
+		<input type="button" name="search-btn" id="search-btn" class="form-control btn btn-register" value="Search"/>
+	</div><br>
 	  	<div id="showData" class="table-responsive">
 		<table id="tbl_feeStruct" class="table table-bordered table-striped">
 		

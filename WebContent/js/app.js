@@ -52,13 +52,25 @@ function addTable() {
 }*/
 
 $(document).ready(function () {
-	
-      $("#create").click(function () {
+	////Ajax call for getting fees details on page load
+	$.ajax({
+        type: "POST",
+        url: 'feesDetailProcess.jsp',
+        data: {searchcast: $('#search-cast').val()},
+        success: function (result) {
+      	  CreateTableFromJSON(result)
+        },
+        error: function (e) {
+          alert('Errore');
+        }
+      });
+	////Ajax call for getting fees details on search button click
+      $("#search-btn").click(function () {
     	  $("#tbl_feeStruct").empty();
         $.ajax({
           type: "POST",
           url: 'feesDetailProcess.jsp',
-          data: {stateName: $('searchcast').value},
+          data: {searchcast: $('#search-cast').val()},
           success: function (result) {
         	  CreateTableFromJSON(result)
           },

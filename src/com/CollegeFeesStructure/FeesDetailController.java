@@ -21,10 +21,10 @@ public class FeesDetailController {
 			Connection con=ConnectionProvider.createConnection();
 			String q ;
 			if(StringUtils.isEmptyOrWhitespaceOnly(castCategory)){
-				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid;";
+				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid order by b.branchname, t.year;";
 			}
 			else{
-				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid where c.cast = '"+castCategory+"';";
+				q = "select t.year, b.id as branchid,b.branchname,c.id as castid,c.cast,t.tutionfees as tutionfees,t.libraryfees as libraryfees, t.uniformfees as uniformfees, b.contactno from fees t join branch b on b.id = t.branchid join cast c on c.id = t.castid where c.cast = '"+castCategory+"' order by b.branchname, t.year;";
 			}
 			PreparedStatement ps=con.prepareStatement(q);
 			ResultSet rs = ps.executeQuery();
